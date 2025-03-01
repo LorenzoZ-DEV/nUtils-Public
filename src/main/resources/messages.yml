@@ -1,0 +1,61 @@
+# ================================
+# nUtilsV3 - Messages File
+# Version: 2.10-PUBLIC
+# ================================
+
+messages:
+  # ================================ GENERAL MESSAGES ===============================
+  no_permission: "&#8a2be2&lmyServer &#555555» &#ff3333You do not have permission to execute this command."
+  player_only: "&#ff3333You must be a player to execute this command!"
+  usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report <player> <reason>"
+  player_not_found: "&#8a2be2&lmyServer &#555555» &#ff3333Player not found."
+  cooldown_wait: "&#8a2be2&lmyServer &#555555» &#aaaaaaTo report a player, wait another &#d633ff{time} seconds&#aaaaaa."
+  server_not_found: "&#8a2be2&lmyServer &#555555» &#ff3333The player is not currently connected to a server."
+  already_in_server: "&#8a2be2&lmyServer &#555555» &#ff3333You are already in the same server as the player!"
+  target_no_server: "&#8a2be2&lmyServer &#555555» &#ff3333The player is not currently connected to a server."
+  core_reload: "&#8a2be2&lmyServer &#555555» &#aaaaaaPlugin successfully reloaded."
+
+  # ================================ REPORT MESSAGES ===============================
+  report_title: "⚠️ New Report!"
+  report_subtitle: "&d%reporter% &7reported &c%reported% &7for &e%reason%"
+  report_confirmation: "&aYou reported &c%reported% &afor &e%reason%&a!"
+  report_usage: "&cUsage: /report <player> <reason>"
+  report_console: "[Report] %reporter% reported %reported% for %reason%"
+
+  # Report Management
+  report_closed: "&#8a2be2&lmyServer &#555555» &#aaaaaaReport ID &#d633ff%id% &#aaaaaahas been closed by &#d633ff%staff%."
+  report_reopened: "&#8a2be2&lmyServer &#555555» &#aaaaaaReport ID &#d633ff%id% &#aaaaaahas been reopened by &#d633ff%staff%."
+  report_not_found: "&#8a2be2&lmyServer &#555555» &#ff3333Report not found or already closed."
+  report_invalid_id: "&#8a2be2&lmyServer &#555555» &#ff3333Invalid report ID. Please provide a valid number."
+  report_punished: "&#8a2be2&lmyServer &#555555» &#aaaaaaPlayer &#d633ff%reported% &#aaaaaahas been punished for a confirmed report."
+  report_punish_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report punish <id>"
+  report_tp_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report tp <id>"
+  report_teleporting: "&#8a2be2&lmyServer &#555555» &#aaaaaaTeleporting you to the server of report ID &#d633ff%id%."
+  report_no_open_reports: "&#8a2be2&lmyServer &#555555» &#aaaaaaThere are currently no open reports."
+  report_gui_opening: "&#8a2be2&lmyServer &#555555» &#aaaaaaOpening report management GUI..."
+  report_list_header: "&#8a2be2&lmyServer &#555555» &#d633ffOpen Reports:"
+  report_list_format: "&#8a2be2&lmyServer &#555555» &#d633ffID: %id% &7| Reporter: &f%reporter% &7| Reported: &c%reported% &7| Reason: &e%reason%"
+  # ================================ REPORT MANAGEMENT ===============================
+  report_assigned: "&#8a2be2&lmyServer &#555555» &#aaaaaaReport ID &#d633ff%id% &#aaaaaahas been assigned to &#d633ff%staff%."
+  report_assign_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report assign <id> <staff>"
+  report_stats: "&#8a2be2&lmyServer &#555555» &#aaaaaaYou have handled &#d633ff%count% &#aaaaaareports."
+
+
+  # ================================ REQUEST MESSAGES ===============================
+  request_no_permission: "&#8a2be2&lmyServer &#555555» &#ff3333You do not have permission to execute this command."
+  request_player_only: "&#ff3333You must be a player to use this command!"
+  request_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/request <message>"
+  request_cooldown: "&#8a2be2&lmyServer &#555555» &#aaaaaaYou must wait another &#d633ff{time}s &#aaaaaabefore using /request again."
+  request_sent: "&#8a2be2&lmyServer &#555555» &#aaaaaaYour request has been sent to the staff!"
+  request_format: "&#d633ff[REQUEST] &#ffffff{player} &#aaaaaahas requested help from server &#ffffff{server} &#aaaaaa: &#ffffff{message}"
+
+  # ================================ FOLLOW MESSAGES ===============================
+  follow_self: "&#8a2be2&lmyServer &#555555» &#ff3333You cannot follow yourself."
+  following: "&#8a2be2&lmyServer &#555555» &#aaaaaaYou are now following &#d633ff{player}&#aaaaaa."
+  follow_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/follow <player>"
+
+  # ================================ MESSAGE SYSTEM ===============================
+  msg_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/msg <player> <message>"
+  msg_format: "&#8a2be2&lmyServer &#555555» &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
+  no_reply_target: "&#8a2be2&lmyServer &#555555» &#ff3333You have no player to reply to."
+  reply_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"

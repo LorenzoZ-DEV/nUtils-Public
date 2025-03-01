@@ -1,4 +1,4 @@
-package me.nutilsv3.utils;
+package me.nutilsv3.utils.configs;
 
 import me.nutilsv3.Main;
 import org.spongepowered.configurate.ConfigurationNode;
@@ -11,14 +11,17 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
 import java.util.List;
 
 public class ConfigManager {
 
-    private static YamlConfigurationLoader loader;
+    private static YamlConfigurationLoader configLoader;
     private static ConfigurationNode config;
     private static final String CONFIG_FILE = "plugins/nutilsv3/config.yml";
+
+    private static YamlConfigurationLoader messagesLoader;
+    private static ConfigurationNode messagesConfig;
+    private static final String MESSAGES_FILE = "plugins/nutilsv3/messages.yml";
 
     // Colori ANSI per la console
     private static final String PREFIX = "\033[1;34m[nUtils] \033[0m"; // Blu
@@ -28,67 +31,77 @@ public class ConfigManager {
     private static final String RESET = "\033[0m"; // Reset colore
 
     public static void loadConfig(Main plugin) {
-        File file = new File(CONFIG_FILE);
+        config = loadYamlConfig(plugin, CONFIG_FILE);
+        messagesConfig = loadYamlConfig(plugin, MESSAGES_FILE);
+    }
+
+    /**
+     * Metodo per caricare YAML Configurations (usato per config.yml e messages.yml)
+     */
+    private static ConfigurationNode loadYamlConfig(Main plugin, String filePath) {
+        File file = new File(filePath);
         Path configPath = file.toPath();
 
         if (!file.exists()) {
             try {
                 Files.createDirectories(file.getParentFile().toPath());
-                InputStream resource = plugin.getClass().getClassLoader().getResourceAsStream("config.yml");
+                InputStream resource = plugin.getClass().getClassLoader().getResourceAsStream(file.getName());
 
                 if (resource == null) {
-                    plugin.getLogger().warn("⚠️ The file config.yml not found creating another one ...");
+                    plugin.getLogger().warn("⚠️ The file " + file.getName() + " was not found, creating a new one...");
                     file.createNewFile();
                 } else {
                     Files.copy(resource, configPath, StandardCopyOption.REPLACE_EXISTING);
-                    plugin.getLogger().info("\033[1;32m✅ Configuration created!\033[0m");
+                    plugin.getLogger().info("\033[1;32m✅ " + file.getName() + " has been created successfully!\033[0m");
                 }
             } catch (IOException e) {
-                plugin.getLogger().error("❌ Error when creating Configuration file!", e);
-                return;
+                plugin.getLogger().error("❌ Error while creating " + file.getName(), e);
+                return null;
             }
         }
 
-        loader = YamlConfigurationLoader.builder().path(configPath).build();
-
         try {
-            config = loader.load();
-            plugin.getLogger().info("\033[1;32m✅ Configuration Created!\033[0m");
+            YamlConfigurationLoader loader = YamlConfigurationLoader.builder().path(configPath).build();
+            return loader.load();
         } catch (IOException e) {
-            plugin.getLogger().error("❌ Error when creating Configuration file!", e);
+            plugin.getLogger().error("❌ Error while loading " + file.getName(), e);
+            return null;
         }
     }
 
-
     /**
-     * Restituisce un messaggio dal config, con valore di default se non esiste.
+     * Restituisce un messaggio da messages.yml con un valore di default.
      */
-    public static String getMessage(String path, String defaultValue) {
-        return config.node("messages", path).getString(defaultValue);
+    public static String getMessage(String key, String defaultValue) {
+        if (messagesConfig == null) {
+            return defaultValue;
+        }
+        return messagesConfig.node("messages", key).getString(defaultValue);
     }
 
     /**
      * Restituisce il cooldown di un comando dal config.
      */
     public static int getCooldown(String command) {
+        if (config == null) return 15;
         return config.node(command, "cooldown").getInt(15);
     }
 
+    /**
+     * Restituisce una lista di suggerimenti (es. comandi bloccati)
+     */
     public static List<String> getSuggestions(String request) throws SerializationException {
+        if (config == null) return List.of();
         return config.node("blocked-commands").getList(String.class);
     }
 
     /**
-     * Ricarica il file di configurazione.
+     * Ricarica entrambi i file di configurazione (config.yml + messages.yml).
      */
-    public static void reloadConfig() {
-        try {
-            config = loader.load();
-            logSuccess("✅ Configurazione ricaricata con successo!");
-        } catch (IOException e) {
-            logError("❌ Errore nel ricaricamento della configurazione!");
-            e.printStackTrace();
-        }
+    public static void reloadConfig(Main plugin) {
+        config = loadYamlConfig(plugin, CONFIG_FILE);
+        messagesConfig = loadYamlConfig(plugin, MESSAGES_FILE);
+        logSuccess("✅ Configurations reloaded successfully!");
     }
 
     // Funzioni di logging migliorate con colori ANSI

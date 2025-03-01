@@ -1,10 +1,10 @@
-package me.nutilsv3.commands.users;
+package me.nutilsv3.commands.users.services;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
 import com.velocitypowered.api.proxy.Player;
 import me.nutilsv3.Main;
-import me.nutilsv3.utils.CS;
+import me.nutilsv3.utils.strings.CS;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 

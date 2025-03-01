@@ -1,39 +1,20 @@
 # ================================
+# nUtilsV3 - Configuration File
 # Version: 2.10-PUBLIC
-# For any bug reports, contact vanixy
+# ================================
 
-cooldown: 15  # Cooldown time in seconds
-# ==================================================MESSAGES============================================================================
-messages:
-  # ================================GENERAL MESSAGES===============================
-  no_permission: "&#8a2be2&lNINFEA &#555555» &#ff3333You do not have permission to execute this command."
-  player_only: "&#ff3333You must be a player to execute this command!"
-  usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUsage: &#d633ff/report <player> <reason>"
-  player_not_found: "&#8a2be2&lNINFEA &#555555» &#ff3333Player not found."
-  cooldown_wait: "&#8a2be2&lNINFEA &#555555» &#aaaaaaTo report a player, wait another &#d633ff{time} seconds&#aaaaaa."
-  server_not_found: "&#8a2be2&lNINFEA &#555555» &#ff3333The player is not currently connected to a server."
-  already_in_server: "&#8a2be2&lNINFEA &#555555» &#ff3333You are already in the same server as the player!"
-  target_no_server: "&#8a2be2&lNINFEA &#555555» &#ff3333The player is not currently connected to a server."
-  core_reload: "&#8a2be2&lNINFEA &#555555» &#aaaaaaPlugin successfully reloaded."
-  # ================================REPORT MESSAGES===============================
-  report_title: "⚠️ New Report!"
-  report_subtitle: "&d%reporter% &7reported &c%reported% &7for &e%reason%"
-  report_confirmation: "&aYou reported &c%reported% &afor &e%reason%&a!"
-  report_usage: "&cUsage: /report <player> <reason>"
-  report_console: "[Report] %reporter% reported %reported% for %reason%"
-  # ================================REQUEST MESSAGES===============================
-  request_no_permission: "&#8a2be2&lNINFEA &#555555» &#ff3333You do not have permission to execute this command."
-  request_player_only: "&#ff3333You must be a player to use this command!"
-  request_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaCorrect usage: &#d633ff/request <message>"
-  request_cooldown: "&#8a2be2&lNINFEA &#555555» &#aaaaaaYou must wait another &#d633ff{time}s &#aaaaaabefore using /request again."
-  request_sent: "&#8a2be2&lNINFEA &#555555» &#aaaaaaYour request has been sent to the staff!"
-  request_format: "&#d633ff[REQUEST] &#ffffff{player} &#aaaaaahas requested help from server &#ffffff{server} &#aaaaaa: &#ffffff{message}"
-  # ================================FOLLOW MESSAGES===============================
-  follow_self: "&#8a2be2&lNINFEA &#555555» &#ff3333You cannot follow yourself."
-  following: "&#8a2be2&lNINFEA &#555555» &#aaaaaaYou are now following &#d633ff{player}&#aaaaaa."
-  follow_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaCorrect usage: &#d633ff/follow <player>"
-  # ================================MESSAGE SYSTEM===============================
-  msg_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaCorrect usage: &#d633ff/msg <player> <message>"
-  msg_format: "&#8a2be2&lNINFEA &#555555» &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
-  no_reply_target: "&#8a2be2&lNINFEA &#555555» &#ff3333You have no player to reply to."
-  reply_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"
+cooldown:
+  request: 15  # Cooldown time for /request
+  report: 10   # Cooldown time for /report
+
+# Database settings (for future implementations)
+database:
+  type: "sqlite" # Available: sqlite, mysql
+  host: "localhost"
+  port: 3306
+  database: "nutils"
+  username: "root"
+  password: "password"
+
+# Update Checker (Enable/Disable)
+update-checker: true
