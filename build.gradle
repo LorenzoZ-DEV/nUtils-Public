@@ -1,0 +1,79 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id "org.jetbrains.gradle.plugin.idea-ext" version "1.0.1"
+    id 'com.github.johnrengelman.shadow' version '8.1.1' // Plugin per creare un JAR shadato
+}
+
+group = 'me.nutilsv3'
+version = '2.1.0-PUBLIC'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "resparkReleases"
+        url = "https://maven.respark.dev/releases"
+    }
+}
+
+dependencies {
+    compileOnly "com.velocitypowered:velocity-api:3.2.0-SNAPSHOT"
+    annotationProcessor "com.velocitypowered:velocity-api:3.2.0-SNAPSHOT"
+
+    // Configurate per gestione file YAML
+    implementation 'org.spongepowered:configurate-yaml:4.1.2'
+
+    // LicenseGate (questa verrà shadata)
+    implementation "dev.respark.licensegate:license-gate:1.0.4"
+    compileOnly 'net.luckperms:api:5.4'
+
+}
+
+// Configurazione per il JAR finale con Shadow Plugin
+shadowJar {
+    relocate 'dev.respark.licensegate', 'me.nutilsv3.libs.licensegate' // Reloca LicenseGate per evitare conflitti
+    minimize() // Rimuove classi inutili per ridurre la dimensione del JAR
+    archiveClassifier.set('')
+}
+
+tasks.build.dependsOn shadowJar
+
+def targetJavaVersion = 16
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+
+def templateSource = file('src/main/templates')
+def templateDest = layout.buildDirectory.dir('generated/sources/templates')
+def generateTemplates = tasks.register('generateTemplates', Copy) { task ->
+    def props = [
+            'version': project.version
+    ]
+    task.inputs.properties props
+
+    task.from templateSource
+    task.into templateDest
+    task.expand props
+}
+
+sourceSets.main.java.srcDir(generateTemplates.map { it.outputs })
+
+rootProject.idea.project.settings.taskTriggers.afterSync generateTemplates
+project.eclipse.synchronizationTasks(generateTemplates)

@@ -1,0 +1,91 @@
+# ================================
+# Version: 3.0.0
+# Author: Ninfea
+# Website: https://ninfea.fun
+# Discord: https://discord.gg/8Zv4b2Q
+# Per qualsiasi bug contatta vanixy
+# ================================
+license:
+  enabled: true
+  key: "INSERISCI-LA-TUA-CHIAVE-QUI"
+  product: "nUtils-Velocity"
+
+
+cooldown: 15  # Tempo di cooldown in secondi
+# ==================================================MESSAGGI============================================================================
+messages:
+  # ================================MESSAGGI GENERALI===============================
+  no_permission: "&#8a2be2&lNINFEA &#555555» &#ff3333Non hai il permesso per eseguire questo comando."
+  player_only: "&#ff3333Devi essere un giocatore per eseguire questo comando!"
+  usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUtilizzo: &#d633ff/report <player> <motivo>"
+  player_not_found: "&#8a2be2&lNINFEA &#555555» &#ff3333Giocatore non trovato."
+  cooldown_wait: "&#8a2be2&lNINFEA &#555555» &#aaaaaaPer segnalare un giocatore attendi ancora &#d633ff{time} secondi&#aaaaaa."
+  server_not_found: "&#8a2be2&lNINFEA &#555555» &#ff3333Il giocatore non è attualmente collegato a un server."
+  already_in_server: "&#8a2be2&lNINFEA &#555555» &#ff3333Sei già nello stesso server del giocatore!"
+  target_no_server: "&#8a2be2&lNINFEA &#555555» &#ff3333Il giocatore non è attualmente connesso a un server."
+  core_reload: "&#8a2be2&lNINFEA &#555555» &#aaaaaaPlugin ricaricato con successo."
+  # ================================MESSAGGI REPORT===============================
+  self_report: "&#8a2be2&lNINFEA &#555555» &#ff3333Non puoi reportare te stesso."
+  report_sent: "&#8a2be2&lNINFEA &#555555» &#aaaaaaSegnalazione inviata. Grazie!"
+  report_format: "&#8a2be2&lNINFEA &#555555» &#d633ff{executor} &#aaaaaaha segnalato &#d633ff{target} &#aaaaaaper &#d633ff{reason}"
+  # ================================MESSAGGI REQUEST ===============================
+  request_no_permission: "&#8a2be2&lNINFEA &#555555» &#ff3333Non hai il permesso per eseguire questo comando."
+  request_player_only: "&#ff3333Devi essere un giocatore per usare questo comando!"
+  request_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUso corretto: &#d633ff/request <messaggio>"
+  request_cooldown: "&#8a2be2&lNINFEA &#555555» &#aaaaaaDevi attendere ancora &#d633ff{time}s &#aaaaaaper usare di nuovo /request."
+  request_sent: "&#8a2be2&lNINFEA &#555555» &#aaaaaaLa tua richiesta è stata inviata allo staff!"
+  request_format: "&#d633ff[REQUEST] &#ffffff{player} &#aaaaaaha chiesto aiuto dal server &#ffffff{server} &#aaaaaa: &#ffffff{message}"
+  # ================================MESSAGGI FOLLOW ===============================
+  follow_self: "&#8a2be2&lNINFEA &#555555» &#ff3333Non puoi seguire te stesso."
+  following: "&#8a2be2&lNINFEA &#555555» &#aaaaaaStai seguendo &#d633ff{player}&#aaaaaa."
+  follow_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUso corretto: &#d633ff/follow <player>"
+  # ================================MESSAGGI STAFFCHAT ===============================
+  staffchat_enabled: "&#8a2be2&lNINFEA &#555555» &#aaaaaaStaffChat Attivata."
+  staffchat_disabled: "&#8a2be2&lNINFEA &#555555» &#aaaaaaStaffChat Disattivata."
+  staffchat_message: "&#8a2be2&l[StaffChat] {server} &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
+  player_joined: "&#8a2be2&lNINFEA &#555555» &#d633ff{prefix} &#d633ff{player} &#aaaaaaè entrato nel server."
+  player_switched_server: "{prefix} &7{player} &8(&d{serverbefore} &e➜ &d{server}&8)"
+  # ================================MESSAGGI ADMIN CHAT ===============================
+  adminchat_enabled: "&#8a2be2&lNINFEA &#555555» &#aaaaaaAdminChat Attivata."
+  adminchat_disabled: "&#8a2be2&lNINFEA &#555555» &#aaaaaaAdminChat Disattivata."
+  adminchat_message: "&#ff3333&l[AdminChat] {server} &#ff3333{prefix}{player} &#555555» &#aaaaaa{message}"
+  # ================================MESSAGGI MSG ===============================
+  msg_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUso corretto: &#d633ff/msg <player> <messaggio>"
+  msg_format: "&#8a2be2&lNINFEA &#555555» &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
+  no_reply_target: "&#8a2be2&lNINFEA &#555555» &#ff3333Non hai nessun giocatore a cui rispondere."
+  reply_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUso corretto: &#d633ff/reply <messaggio>"
+  # ================================MESSAGGI GOTO ===============================
+  goto_usage: "&#8a2be2&lNINFEA &#555555» &#aaaaaaUso corretto: &#d633ff/goto <player>"
+  goto_self: "&#8a2be2&lNINFEA &#555555» &#ff3333Non puoi teletrasportarti a te stesso."
+  goto_player: "&#aaaaaaTi stai teletrasportando da &#d633ff{player}&a."
+  goto_server: "&#aaaaaaTi stai teletrasportando al server &#d633ff{server}&a."
+  # ================================MESSAGGI LOBBY ===============================
+  already_in_lobby: "&#8a2be2&lNINFEA &#555555» &#ff333Sei gia in lobby."
+  hub_teleport: "&#8a2be2&lNINFEA &#555555» &#aaaaaaTi stai teletrasportando al server hub."
+  fallback_message: "&#8a2be2&lNINFEA &#555555» &#aaaaaaIl server è stato spento, verrai spostato in una lobby..."
+
+
+# ==================================================CONFIGURAZIONE============================================================================
+
+# ================================SERVERS PER LA STAFFCHAT===============================
+ignored_servers:
+  - "lobby01"
+  - "lobby02"
+  - "lobby03"
+  - "hub"
+
+# ================================LOBBY SERVERS===============================
+lobby-servers:
+  - "lobby01"
+  - "lobby02"
+  - "lobby03"
+
+
+# ================================REPORT REASONS===============================
+reasons:
+  - "cheating"
+  - "spam"
+  - "bug abuse"
+  - "insulti"
+  - "crossteaming"
+  - "advertising"
