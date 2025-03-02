@@ -12,6 +12,7 @@ import me.nutilsv3.commands.users.report.*;
 import me.nutilsv3.commands.users.request.RequestCommand;
 import me.nutilsv3.commands.users.services.PingCommand;
 import me.nutilsv3.commands.users.messages.MessageCommand;
+import me.nutilsv3.listeners.PlayerJoinListener;
 import me.nutilsv3.listeners.StaffJoinListener;
 import me.nutilsv3.utils.configs.ConfigManager;
 import me.nutilsv3.utils.strings.CS;
@@ -72,6 +73,7 @@ public class Provider {
         // Qui puoi registrare eventuali event listeners in futuro
         EventManager eventManager = plugin.getProxy().getEventManager();
         eventManager.register(plugin, new StaffJoinListener ());
+        eventManager.register ( plugin, new PlayerJoinListener () );
 
 
     }

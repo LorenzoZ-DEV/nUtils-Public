@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateChecker {
 
     private static final int RESOURCE_ID = 119755; // SpigotMC Resource ID
+    private static String latestVersion = "2.12.1"; // ✅ Sempre inizializzato con un valore di default
 
     public static void checkForUpdates() {
         CompletableFuture.runAsync(() -> {
@@ -20,7 +21,7 @@ public class UpdateChecker {
                 connection.setRequestProperty("User-Agent", "NUtils-Plugin/" + Main.getInstance().getDescription().get("version"));
 
                 int responseCode = connection.getResponseCode();
-                if (responseCode != 200) { // Se la risposta non è OK (200)
+                if (responseCode != 200) {
                     Main.getInstance().getLogger().warn("⚠ SpigotMC API returned an error: HTTP " + responseCode);
                     return;
                 }
@@ -34,7 +35,7 @@ public class UpdateChecker {
                     return;
                 }
 
-                String latestVersion = response.split("\"current_version\":\"")[1].split("\"")[0];
+                latestVersion = response.split("\"current_version\":\"")[1].split("\"")[0];
                 String currentVersion = Main.getInstance().getDescription().get("version");
 
                 if (!currentVersion.equalsIgnoreCase(latestVersion)) {
@@ -48,5 +49,10 @@ public class UpdateChecker {
                 Main.getInstance().getLogger().error("❌ Failed to check for updates on Spigot!", e);
             }
         });
+    }
+
+    // ✅ Metodo per ottenere la versione più recente
+    public static String getLatestVersion() {
+        return latestVersion;
     }
 }
