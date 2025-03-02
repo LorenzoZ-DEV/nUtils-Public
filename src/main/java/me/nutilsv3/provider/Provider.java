@@ -7,6 +7,7 @@ import me.nutilsv3.commands.admin.ReloadCoreCommand;
 import me.nutilsv3.commands.staff.follow.FollowCommand;
 import me.nutilsv3.commands.staff.reportsystem.*;
 import me.nutilsv3.commands.users.info.AntistealCommand;
+import me.nutilsv3.commands.users.messages.ReplyCommand;
 import me.nutilsv3.commands.users.report.*;
 import me.nutilsv3.commands.users.request.RequestCommand;
 import me.nutilsv3.commands.users.services.PingCommand;
@@ -35,9 +36,7 @@ public class Provider {
         plugin.getLogger().info(CS.translate("\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"));
     }
 
-    /**
-     * 📌 Registra i comandi
-     */
+
     public void registracommandi() {
         CommandManager commandManager = plugin.getProxy().getCommandManager();
 
@@ -47,6 +46,7 @@ public class Provider {
         commandManager.register("follow", new FollowCommand());
         commandManager.register("ping", new PingCommand());
         commandManager.register("msg", new MessageCommand());
+        commandManager.register ( "r", new ReplyCommand () );
 
         // ✅ Comandi Admin
         commandManager.register("nutilsreload", new ReloadCoreCommand());

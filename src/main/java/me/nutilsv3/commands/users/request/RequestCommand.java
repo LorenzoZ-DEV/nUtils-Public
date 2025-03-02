@@ -43,12 +43,11 @@ public class RequestCommand implements SimpleCommand {
             return;
         }
 
-        // Ottenere il valore del cooldown dal config, con gestione sicura dell'errore
         int cooldownSeconds;
         try {
             cooldownSeconds = ConfigManager.getCooldown("request");
         } catch (Exception e) {
-            cooldownSeconds = 15; // Valore di default in caso di errore
+            cooldownSeconds = 15;
             Main.getInstance().getLogger().error("Errore nel caricamento del cooldown dal config.yml", e);
         }
 

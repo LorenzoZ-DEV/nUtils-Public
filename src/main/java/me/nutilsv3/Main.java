@@ -6,7 +6,6 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.nutilsv3.provider.Provider;
-import me.nutilsv3.storage.DatabaseManager;
 import me.nutilsv3.storage.report.ReportStorage;
 import me.nutilsv3.utils.checker.UpdateChecker;
 import me.nutilsv3.utils.checker.UpdateChecker;

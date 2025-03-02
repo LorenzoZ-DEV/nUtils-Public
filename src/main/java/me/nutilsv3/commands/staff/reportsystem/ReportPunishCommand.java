@@ -29,7 +29,6 @@ public class ReportPunishCommand implements SimpleCommand {
         try {
             int reportId = Integer.parseInt(args[0]);
 
-            // Recupera il giocatore segnalato dal report
             Optional<String> reportedPlayer = ReportStorage.getReportedPlayer(reportId).describeConstable ( );
 
             if (reportedPlayer.isEmpty()) {
@@ -39,7 +38,6 @@ public class ReportPunishCommand implements SimpleCommand {
 
             String playerName = reportedPlayer.get();
 
-            // Esegui il comando di ban o punizione (puoi personalizzarlo)
             String punishmentCommand = "ban " + playerName + " Report confirmed";
             sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_punished", "&aPlayer %reported% has been punished for a confirmed report."))
                     .replace("%reported%", playerName)));

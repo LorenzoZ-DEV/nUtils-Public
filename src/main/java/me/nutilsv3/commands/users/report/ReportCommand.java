@@ -40,7 +40,6 @@ public class ReportCommand implements SimpleCommand {
         Player reportedPlayer = reportedPlayerOpt.get();
         String serverName = reportedPlayer.getCurrentServer().map(sc -> sc.getServerInfo().getName()).orElse("Unknown");
 
-        // ✅ Salviamo il report nel file CSV
         ReportStorage.saveReport(reporter.getUsername(), reportedPlayer.getUsername(), reason, serverName);
 
         reporter.sendMessage(Component.text(CS.translate(

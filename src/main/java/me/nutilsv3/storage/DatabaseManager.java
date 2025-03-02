@@ -1,3 +1,4 @@
+/*
 package me.nutilsv3.storage;
 
 import me.nutilsv3.Main;
@@ -13,11 +14,10 @@ public class DatabaseManager {
 
     public static void connect() {
         try {
-            Class.forName("org.sqlite.JDBC"); // ✅ Carica il driver manualmente
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:plugins/nutilsv3/database.db");
             Main.getInstance().getLogger().info("✅ Connected to SQLite database successfully!");
 
-            // ✅ Crea la tabella se non esiste
             createTable();
         } catch (ClassNotFoundException e) {
             Main.getInstance().getLogger().error("❌ SQLite JDBC driver not found!", e);
@@ -26,9 +26,7 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * ✅ Crea la tabella reports se non esiste
-     */
+
     private static void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS reports (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -47,16 +45,12 @@ public class DatabaseManager {
         }
     }
 
-    /**
-     * ✅ Restituisce la connessione al database
-     */
+
     public static Connection getConnection() {
         return connection;
     }
 
-    /**
-     * ✅ Chiude la connessione al database
-     */
+
     public static void close() {
         try {
             if (connection != null && !connection.isClosed()) {
@@ -68,3 +62,4 @@ public class DatabaseManager {
         }
     }
 }
+*/

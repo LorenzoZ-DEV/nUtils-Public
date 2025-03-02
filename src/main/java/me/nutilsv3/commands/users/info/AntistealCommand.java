@@ -8,14 +8,12 @@ import me.nutilsv3.utils.strings.CS;
 public class AntistealCommand implements SimpleCommand {
 
     public AntistealCommand() {
-        // Costruttore vuoto
     }
 
     @Override
     public void execute(Invocation invocation) {
         CommandSource p = invocation.source();
 
-        // Barre decorative
         p.sendMessage(Component.text(CS.translate("&#555555&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")));
         p.sendMessage(Component.text(CS.translate("&#8a2be2&lPUBLIC &#555555» &#d633ffThis server Use &#ff66ccNUtils for Velocity&#aaaaaa.")));
         p.sendMessage(Component.text(CS.translate("&#555555Versione: &#d633ff2.0.0 &#ff3333-Public")));

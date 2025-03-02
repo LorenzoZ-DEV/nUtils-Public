@@ -13,7 +13,6 @@ public class CS {
 
     private static final MiniMessage MINI_MESSAGE = MiniMessage.builder().build();
     public static String translate(String string) {
-        // Sostituzione colori HEX
         Matcher matcher = HEX_PATTERN.matcher(string);
         StringBuffer buffer = new StringBuffer();
 
@@ -28,7 +27,6 @@ public class CS {
         }
         matcher.appendTail(buffer);
 
-        // Sostituzione colori classici e newline
         return buffer.toString().replace("&", "§").replace("%n", "\n");
     }
 

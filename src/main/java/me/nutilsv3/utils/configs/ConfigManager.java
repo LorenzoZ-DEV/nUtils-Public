@@ -23,21 +23,18 @@ public class ConfigManager {
     private static ConfigurationNode messagesConfig;
     private static final String MESSAGES_FILE = "plugins/nutilsv3/messages.yml";
 
-    // Colori ANSI per la console
-    private static final String PREFIX = "\033[1;34m[nUtils] \033[0m"; // Blu
-    private static final String SUCCESS = "\033[1;32m"; // Verde
-    private static final String WARNING = "\033[1;33m"; // Giallo
-    private static final String ERROR = "\033[1;31m"; // Rosso
-    private static final String RESET = "\033[0m"; // Reset colore
+    private static final String PREFIX = "\033[1;34m[nUtils] \033[0m";
+    private static final String SUCCESS = "\033[1;32m";
+    private static final String WARNING = "\033[1;33m";
+    private static final String ERROR = "\033[1;31m";
+    private static final String RESET = "\033[0m";
 
     public static void loadConfig(Main plugin) {
         config = loadYamlConfig(plugin, CONFIG_FILE);
         messagesConfig = loadYamlConfig(plugin, MESSAGES_FILE);
     }
 
-    /**
-     * Metodo per caricare YAML Configurations (usato per config.yml e messages.yml)
-     */
+
     private static ConfigurationNode loadYamlConfig(Main plugin, String filePath) {
         File file = new File(filePath);
         Path configPath = file.toPath();
@@ -69,9 +66,7 @@ public class ConfigManager {
         }
     }
 
-    /**
-     * Restituisce un messaggio da messages.yml con un valore di default.
-     */
+
     public static String getMessage(String key, String defaultValue) {
         if (messagesConfig == null) {
             return defaultValue;
@@ -79,32 +74,25 @@ public class ConfigManager {
         return messagesConfig.node("messages", key).getString(defaultValue);
     }
 
-    /**
-     * Restituisce il cooldown di un comando dal config.
-     */
+
     public static int getCooldown(String command) {
         if (config == null) return 15;
         return config.node(command, "cooldown").getInt(15);
     }
 
-    /**
-     * Restituisce una lista di suggerimenti (es. comandi bloccati)
-     */
+
     public static List<String> getSuggestions(String request) throws SerializationException {
         if (config == null) return List.of();
         return config.node("blocked-commands").getList(String.class);
     }
 
-    /**
-     * Ricarica entrambi i file di configurazione (config.yml + messages.yml).
-     */
+
     public static void reloadConfig(Main plugin) {
         config = loadYamlConfig(plugin, CONFIG_FILE);
         messagesConfig = loadYamlConfig(plugin, MESSAGES_FILE);
         logSuccess("✅ Configurations reloaded successfully!");
     }
 
-    // Funzioni di logging migliorate con colori ANSI
     private static void logSuccess(String message) {
         Main.getInstance().getLogger().info(PREFIX + SUCCESS + message + RESET);
     }

@@ -20,7 +20,6 @@ public class PingCommand implements SimpleCommand {
         CommandSource sender = invocation.source();
         String[] args = invocation.arguments();
 
-        // Controllo se il comando è stato eseguito dalla console
         if (!(sender instanceof Player player)) {
             sender.sendMessage(Component.text(CS.translate("&cSolo i giocatori possono eseguire questo comando!")));
             return;

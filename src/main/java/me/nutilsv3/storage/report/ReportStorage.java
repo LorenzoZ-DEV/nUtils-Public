@@ -8,17 +8,14 @@ import java.util.List;
 public class ReportStorage {
     private static final String FILE_PATH = "plugins/nutilsv3/reports.csv";
 
-    /**
-     * ✅ Inizializza il file CSV se non esiste
-     */
+
     public static void initialize() {
         File file = new File(FILE_PATH);
         if (!file.exists()) {
             try {
-                file.getParentFile().mkdirs(); // Crea la cartella se non esiste
+                file.getParentFile().mkdirs();
                 file.createNewFile();
 
-                // Scrive l'intestazione nel CSV
                 FileWriter fw = new FileWriter(file, true);
                 BufferedWriter bw = new BufferedWriter(fw);
                 PrintWriter pw = new PrintWriter(bw);
@@ -33,9 +30,7 @@ public class ReportStorage {
         }
     }
 
-    /**
-     * ✅ Salva un nuovo report nel file CSV
-     */
+
     public static void saveReport(String reporter, String reported, String reason, String server) {
         try {
             File file = new File(FILE_PATH);
@@ -46,7 +41,6 @@ public class ReportStorage {
             int reportId = getLastReportId() + 1;
             String timestamp = String.valueOf(System.currentTimeMillis());
 
-            // Scrive il nuovo report nel CSV
             pw.println(reportId + "," + reporter + "," + reported + "," + reason + "," + server + ",OPEN," + timestamp);
             pw.close();
 
@@ -57,9 +51,7 @@ public class ReportStorage {
         }
     }
 
-    /**
-     * ✅ Ottiene tutti i report aperti dal CSV
-     */
+
     public static List<String> getOpenReports() {
         List<String> reports = new ArrayList<>();
 
@@ -68,7 +60,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -87,9 +79,7 @@ public class ReportStorage {
         return reports;
     }
 
-    /**
-     * ✅ Ottiene l'ultimo ID dei report nel file CSV
-     */
+
     private static int getLastReportId() {
         int lastId = 0;
 
@@ -98,7 +88,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -121,9 +111,7 @@ public class ReportStorage {
         return lastId;
     }
 
-    /**
-     * ✅ Chiude un report nel file CSV
-     */
+
     public static boolean closeReport(int id) {
         List<String> reports = new ArrayList<>();
         boolean found = false;
@@ -156,9 +144,7 @@ public class ReportStorage {
         }
         return false;
     }
-    /**
-     * ✅ Conta quanti report aperti ci sono nel CSV
-     */
+
     public static int getOpenReportsCount() {
         int count = 0;
 
@@ -167,7 +153,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -185,9 +171,7 @@ public class ReportStorage {
         return count;
     }
 
-    /**
-     * ✅ Conta quanti report ha gestito un determinato staffer
-     */
+
     public static int getHandledReportsCount(String staffName) {
         int count = 0;
 
@@ -196,7 +180,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -214,23 +198,17 @@ public class ReportStorage {
         return count;
     }
 
-    /**
-     * ✅ "Riapre" un report cambiandone lo stato
-     */
+
     public static boolean reopenReport(int id) {
         return updateReportStatus(id, "OPEN");
     }
 
-    /**
-     * ✅ Chiude un report aggiornandone lo stato
-     */
+
     public static boolean closeReport(int id, String staffName) {
         return updateReportStatus(id, "CLOSED");
     }
 
-    /**
-     * ✅ Funzione interna per aggiornare lo stato di un report
-     */
+
     private static boolean updateReportStatus(int id, String newStatus) {
         List<String> reports = new ArrayList<>();
         boolean found = false;
@@ -263,9 +241,7 @@ public class ReportStorage {
         }
         return false;
     }
-    /**
-     * ✅ Assegna un report a un moderatore
-     */
+
     public static boolean assignReport(int id, String staffName) {
         List<String> reports = new ArrayList<>();
         boolean found = false;
@@ -299,23 +275,20 @@ public class ReportStorage {
         return false;
     }
 
-    /**
-     * ✅ Ottiene il nome del giocatore segnalato in un report
-     */
     public static String getReportedPlayer(int id) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
 
                 String[] parts = line.split(",");
                 if (parts.length >= 3 && Integer.parseInt(parts[0]) == id) {
-                    return parts[2]; // Nome del giocatore segnalato
+                    return parts[2];
                 }
             }
 
@@ -325,16 +298,14 @@ public class ReportStorage {
         return null;
     }
 
-    /**
-     * ✅ Ottiene il server dove è stato effettuato il report
-     */
+
     public static String getReportedServer(int id) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }

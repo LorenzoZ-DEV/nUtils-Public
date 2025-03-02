@@ -13,10 +13,8 @@ public class ReloadCoreCommand implements SimpleCommand {
     public void execute(Invocation invocation) {
         CommandSource sender = invocation.source();
 
-        // ✅ Ricarichiamo la configurazione passando il Main
         ConfigManager.reloadConfig(Main.getInstance());
 
-        // ✅ Usa Component.text() per inviare il messaggio correttamente
         sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("core_reload", "Configurazione ricaricata con successo!"))));
     }
 }
