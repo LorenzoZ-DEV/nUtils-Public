@@ -1,4 +1,4 @@
-nUtilsV3 - Version 2.10-PUBLIC
+nUtils-Pubblic
 The ultimate solution for advanced moderation and report management!
 
 ⚠ WARNING: If you are updating from a previous version, please DELETE the nUtilsV3 folder before restarting the server. This will ensure that all new features and settings are applied correctly.
