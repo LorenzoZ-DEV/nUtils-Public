@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.nutilsv3'
-version = '2.1.1-PUBLIC'
+version = '2.1.2-PUBLIC'
 
 repositories {
     mavenCentral()

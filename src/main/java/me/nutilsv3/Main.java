@@ -62,7 +62,7 @@ public class Main {
 
     public Map<String, String> getDescription() {
         Map<String, String> description = new HashMap<> ();
-        description.put("name", "nUtilsV3");
+        description.put("name", "nUtils-pubblic");
         description.put("version", BuildConstants.VERSION);
         description.put("author", "Vanixy");
         description.put("description", "A powerful utility plugin for Velocity.");

@@ -104,4 +104,9 @@ public class ConfigManager {
     private static void logError(String message) {
         Main.getInstance().getLogger().error(PREFIX + ERROR + message + RESET);
     }
+
+    public static String getString(String path, String defaultValue) {
+        return config.node(path).getString(defaultValue);
+    }
+
 }

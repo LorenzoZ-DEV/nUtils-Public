@@ -2,6 +2,7 @@ package me.nutilsv3.commands.staff.reportsystem;
 
 import com.velocitypowered.api.command.CommandSource;
 import com.velocitypowered.api.command.SimpleCommand;
+import me.nutilsv3.Main;
 import me.nutilsv3.storage.report.ReportStorage;
 import me.nutilsv3.utils.strings.CS;
 import me.nutilsv3.utils.configs.ConfigManager;
@@ -29,7 +30,7 @@ public class ReportPunishCommand implements SimpleCommand {
         try {
             int reportId = Integer.parseInt(args[0]);
 
-            Optional<String> reportedPlayer = ReportStorage.getReportedPlayer(reportId).describeConstable ( );
+            Optional<String> reportedPlayer = Optional.ofNullable(ReportStorage.getReportedPlayer(reportId));
 
             if (reportedPlayer.isEmpty()) {
                 sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_not_found", "&cReport not found or already handled."))));
@@ -38,7 +39,13 @@ public class ReportPunishCommand implements SimpleCommand {
 
             String playerName = reportedPlayer.get();
 
-            String punishmentCommand = "ban " + playerName + " Report confirmed";
+            // ✅ Leggiamo il comando di punizione dal config
+            String punishmentCommand = ConfigManager.getString("punishments.command", "ban %player% Report confirmed")
+                    .replace("%player%", playerName);
+
+            // ✅ Eseguiamo il comando di punizione
+            Main.getInstance ( ).getProxy().getCommandManager().executeAsync(sender, punishmentCommand);
+
             sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_punished", "&aPlayer %reported% has been punished for a confirmed report."))
                     .replace("%reported%", playerName)));
 

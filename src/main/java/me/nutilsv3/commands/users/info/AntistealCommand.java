@@ -16,7 +16,7 @@ public class AntistealCommand implements SimpleCommand {
 
         p.sendMessage(Component.text(CS.translate("&#555555&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")));
         p.sendMessage(Component.text(CS.translate("&#8a2be2&lPUBLIC &#555555» &#d633ffThis server Use &#ff66ccNUtils for Velocity&#aaaaaa.")));
-        p.sendMessage(Component.text(CS.translate("&#555555Versione: &#d633ff2.0.0 &#ff3333-Public")));
+        p.sendMessage(Component.text(CS.translate("&#555555Versione: &#d633ff2.12 &#ff3333-Public")));
         p.sendMessage(Component.text(CS.translate("&#555555Spigot Link: &#d633ffhttps://www.spigotmc.org/resources/ninfeaplus.100000/")));
         p.sendMessage(Component.text(CS.translate("&#555555&m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")));
     }

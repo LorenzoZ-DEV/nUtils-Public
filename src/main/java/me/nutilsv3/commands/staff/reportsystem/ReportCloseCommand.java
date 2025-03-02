@@ -15,7 +15,7 @@ public class ReportCloseCommand implements SimpleCommand {
         String[] args = invocation.arguments();
 
         if (args.length < 1) {
-            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("usage", "&cUsage: /report close <id>"))));
+            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_close_usage", "&cUsage: /report close <id>"))));
             return;
         }
 

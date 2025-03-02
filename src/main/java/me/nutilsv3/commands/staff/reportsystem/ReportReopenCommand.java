@@ -15,7 +15,7 @@ public class ReportReopenCommand implements SimpleCommand {
         String[] args = invocation.arguments();
 
         if (args.length < 1) {
-            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("usage", "&cUsage: /report reopen <id>"))));
+            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_open_usage", "&cUsage: /report reopen <id>"))));
             return;
         }
 

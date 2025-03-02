@@ -23,6 +23,8 @@ messages:
   report_console: "[Report] %reporter% reported %reported% for %reason%"
 
   # Report Management
+  report_open_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report open <id>"
+  report_close_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report close <id>"
   report_closed: "&#8a2be2&lmyServer &#555555» &#aaaaaaReport ID &#d633ff%id% &#aaaaaahas been closed by &#d633ff%staff%."
   report_reopened: "&#8a2be2&lmyServer &#555555» &#aaaaaaReport ID &#d633ff%id% &#aaaaaahas been reopened by &#d633ff%staff%."
   report_not_found: "&#8a2be2&lmyServer &#555555» &#ff3333Report not found or already closed."

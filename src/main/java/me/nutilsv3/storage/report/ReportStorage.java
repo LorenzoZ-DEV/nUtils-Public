@@ -215,12 +215,26 @@ public class ReportStorage {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
+            boolean firstLine = true; // ✅ Variabile per saltare l'intestazione
 
             while ((line = br.readLine()) != null) {
+                if (firstLine) { // ✅ Salta l'intestazione del CSV
+                    firstLine = false;
+                    reports.add(line); // ✅ Mantiene l'intestazione nel file
+                    continue;
+                }
+
                 String[] parts = line.split(",");
-                if (parts.length >= 6 && Integer.parseInt(parts[0]) == id) {
-                    parts[5] = newStatus;
-                    found = true;
+                if (parts.length >= 6) {
+                    try {
+                        int reportId = Integer.parseInt(parts[0]); // ✅ Converte solo se non è l'intestazione
+                        if (reportId == id) {
+                            parts[5] = newStatus; // Cambia lo stato del report
+                            found = true;
+                        }
+                    } catch (NumberFormatException e) {
+                        Main.getInstance().getLogger().error("❌ Error parsing report ID: " + parts[0]);
+                    }
                 }
                 reports.add(String.join(",", parts));
             }
@@ -281,14 +295,18 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) {
+                if (firstLine) { // ✅ Salta l'intestazione
                     firstLine = false;
                     continue;
                 }
 
                 String[] parts = line.split(",");
-                if (parts.length >= 3 && Integer.parseInt(parts[0]) == id) {
-                    return parts[2];
+                if (parts.length >= 3) {
+                    try {
+                        if (Integer.parseInt(parts[0]) == id) {
+                            return parts[2]; // Nome del giocatore segnalato
+                        }
+                    } catch (NumberFormatException ignored) {}
                 }
             }
 
@@ -299,20 +317,25 @@ public class ReportStorage {
     }
 
 
+
     public static String getReportedServer(int id) {
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) {
+                if (firstLine) { // ✅ Salta l'intestazione
                     firstLine = false;
                     continue;
                 }
 
                 String[] parts = line.split(",");
-                if (parts.length >= 5 && Integer.parseInt(parts[0]) == id) {
-                    return parts[4]; // Nome del server
+                if (parts.length >= 5) {
+                    try {
+                        if (Integer.parseInt(parts[0]) == id) {
+                            return parts[4]; // Nome del server
+                        }
+                    } catch (NumberFormatException ignored) {}
                 }
             }
 
@@ -321,5 +344,6 @@ public class ReportStorage {
         }
         return null;
     }
+
 
 }

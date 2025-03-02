@@ -16,5 +16,9 @@ database:
   username: "root"
   password: "password"
 
+punishments:
+  command: "ban %player% Report confirmed"
+
+
 # Update Checker (Enable/Disable)
 update-checker: true
