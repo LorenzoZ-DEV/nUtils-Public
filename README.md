@@ -1,4 +1,4 @@
-nUtilsV3 - Version 2.11-PUBLIC
+nUtilsV3 - Version 2.10-PUBLIC
 The ultimate solution for advanced moderation and report management!
 
 ⚠ WARNING: If you are updating from a previous version, please DELETE the nUtilsV3 folder before restarting the server. This will ensure that all new features and settings are applied correctly.
@@ -48,12 +48,3 @@ Updating from an Older Version?
 
 Update Checker
 The plugin automatically notifies admins when a new version is available on SpigotMC!
-
-
-
-Download & Support
-SpigotMC: Download here
-GitHub: Source Code
-Discord Support:  Join the server
-
-⚡ Support development by giving a ⭐ on GitHub!
