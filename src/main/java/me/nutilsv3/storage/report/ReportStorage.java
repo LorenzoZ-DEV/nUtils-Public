@@ -1,170 +1,354 @@
 package me.nutilsv3.storage.report;
 
 import me.nutilsv3.Main;
-import me.nutilsv3.storage.DatabaseManager;
-
-import java.sql.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ReportStorage {
+    private static final String FILE_PATH = "plugins/nutilsv3/reports.csv";
 
+    /**
+     * ✅ Inizializza il file CSV se non esiste
+     */
+    public static void initialize() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            try {
+                file.getParentFile().mkdirs(); // Crea la cartella se non esiste
+                file.createNewFile();
+
+                // Scrive l'intestazione nel CSV
+                FileWriter fw = new FileWriter(file, true);
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter pw = new PrintWriter(bw);
+                pw.println("ID,Reporter,Reported,Reason,Server,Status,Timestamp");
+                pw.close();
+
+                Main.getInstance().getLogger().info("✅ CSV file created successfully!");
+
+            } catch (IOException e) {
+                Main.getInstance().getLogger().error("❌ Failed to create CSV file!", e);
+            }
+        }
+    }
+
+    /**
+     * ✅ Salva un nuovo report nel file CSV
+     */
+    public static void saveReport(String reporter, String reported, String reason, String server) {
+        try {
+            File file = new File(FILE_PATH);
+            FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+
+            int reportId = getLastReportId() + 1;
+            String timestamp = String.valueOf(System.currentTimeMillis());
+
+            // Scrive il nuovo report nel CSV
+            pw.println(reportId + "," + reporter + "," + reported + "," + reason + "," + server + ",OPEN," + timestamp);
+            pw.close();
+
+            Main.getInstance().getLogger().info("✅ Report saved in CSV successfully!");
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to save report in CSV!", e);
+        }
+    }
+
+    /**
+     * ✅ Ottiene tutti i report aperti dal CSV
+     */
     public static List<String> getOpenReports() {
         List<String> reports = new ArrayList<>();
-        String sql = "SELECT id, reporter, reported, reason, server FROM reports WHERE status = 'OPEN'";
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String reporter = rs.getString("reporter");
-                String reported = rs.getString("reported");
-                String reason = rs.getString("reason");
-                String server = rs.getString("server");
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
 
-                reports.add("ID: " + id + " | Reporter: " + reporter + " | Reported: " + reported + " | Reason: " + reason + " | Server: " + server);
+                String[] parts = line.split(",");
+                if (parts.length >= 6 && parts[5].equals("OPEN")) {
+                    reports.add("ID: " + parts[0] + " | Reporter: " + parts[1] + " | Reported: " + parts[2] +
+                            " | Reason: " + parts[3] + " | Server: " + parts[4]);
+                }
             }
 
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to retrieve reports!", e);
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to read open reports from CSV!", e);
         }
+
         return reports;
     }
 
-    public static boolean updateReportStatus(int id, String status) {
-        String sql = "UPDATE reports SET status = ? WHERE id = ?";
+    /**
+     * ✅ Ottiene l'ultimo ID dei report nel file CSV
+     */
+    private static int getLastReportId() {
+        int lastId = 0;
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, status);
-            stmt.setInt(2, id);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
 
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to update report status!", e);
-            return false;
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length >= 1) {
+                    try {
+                        int id = Integer.parseInt(parts[0]);
+                        if (id > lastId) {
+                            lastId = id;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to get last report ID from CSV!", e);
         }
+
+        return lastId;
     }
-    public static boolean closeReport(int id, String staffName) {
-        String sql = "UPDATE reports SET status = 'CLOSED', handled_by = ? WHERE id = ?";
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, staffName);
-            stmt.setInt(2, id);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
+    /**
+     * ✅ Chiude un report nel file CSV
+     */
+    public static boolean closeReport(int id) {
+        List<String> reports = new ArrayList<>();
+        boolean found = false;
 
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to close report!", e);
-            return false;
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 6 && Integer.parseInt(parts[0]) == id) {
+                    parts[5] = "CLOSED";
+                    found = true;
+                }
+                reports.add(String.join(",", parts));
+            }
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to read reports from CSV!", e);
         }
-    }
 
+        if (found) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+                for (String report : reports) {
+                    bw.write(report + "\n");
+                }
+                return true;
+            } catch (IOException e) {
+                Main.getInstance().getLogger().error("❌ Failed to update reports CSV!", e);
+            }
+        }
+        return false;
+    }
+    /**
+     * ✅ Conta quanti report aperti ci sono nel CSV
+     */
     public static int getOpenReportsCount() {
-        String sql = "SELECT COUNT(*) FROM reports WHERE status = 'OPEN'";
+        int count = 0;
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
 
-            if (rs.next()) {
-                return rs.getInt(1); // Restituisce il numero totale di report aperti
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length >= 6 && parts[5].equals("OPEN")) {
+                    count++;
+                }
             }
 
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to count open reports!", e);
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to count open reports from CSV!", e);
         }
 
-        return 0; // Restituisce 0 se non ci sono report o in caso di errore
-    }
-    public static boolean assignReport(int id, String staffName) {
-        String sql = "UPDATE reports SET assigned_to = ? WHERE id = ? AND status = 'OPEN'";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, staffName);
-            stmt.setInt(2, id);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
-
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to assign report!", e);
-            return false;
-        }
+        return count;
     }
 
+    /**
+     * ✅ Conta quanti report ha gestito un determinato staffer
+     */
     public static int getHandledReportsCount(String staffName) {
-        String sql = "SELECT COUNT(*) FROM reports WHERE handled_by = ?";
+        int count = 0;
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, staffName);
-            ResultSet rs = stmt.executeQuery();
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
 
-            if (rs.next()) {
-                return rs.getInt(1);
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length >= 7 && parts[6].equalsIgnoreCase(staffName)) {
+                    count++;
+                }
             }
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to count handled reports!", e);
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to count handled reports from CSV!", e);
         }
-        return 0;
+
+        return count;
     }
 
-    public static Optional<String> getReportedPlayer(int id) {
-        String sql = "SELECT reported FROM reports WHERE id = ?";
+    /**
+     * ✅ "Riapre" un report cambiandone lo stato
+     */
+    public static boolean reopenReport(int id) {
+        return updateReportStatus(id, "OPEN");
+    }
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
+    /**
+     * ✅ Chiude un report aggiornandone lo stato
+     */
+    public static boolean closeReport(int id, String staffName) {
+        return updateReportStatus(id, "CLOSED");
+    }
 
-            if (rs.next()) {
-                return Optional.of(rs.getString("reported"));
+    /**
+     * ✅ Funzione interna per aggiornare lo stato di un report
+     */
+    private static boolean updateReportStatus(int id, String newStatus) {
+        List<String> reports = new ArrayList<>();
+        boolean found = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 6 && Integer.parseInt(parts[0]) == id) {
+                    parts[5] = newStatus;
+                    found = true;
+                }
+                reports.add(String.join(",", parts));
             }
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to retrieve reported player!", e);
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to read reports from CSV!", e);
         }
-        return Optional.empty();
-    }
 
-    public static boolean reopenReport(int id, String staffName) {
-        String sql = "UPDATE reports SET status = 'OPEN', handled_by = ? WHERE id = ? AND status = 'CLOSED'";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, staffName);
-            stmt.setInt(2, id);
-            int rows = stmt.executeUpdate();
-            return rows > 0;
-
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to reopen report!", e);
-            return false;
-        }
-    }
-    public static Optional<String> getReportedServer(int id) {
-        String sql = "SELECT server FROM reports WHERE id = ?";
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return Optional.of(rs.getString("server"));
+        if (found) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+                for (String report : reports) {
+                    bw.write(report + "\n");
+                }
+                return true;
+            } catch (IOException e) {
+                Main.getInstance().getLogger().error("❌ Failed to update reports CSV!", e);
             }
-        } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to retrieve reported server!", e);
         }
-        return Optional.empty();
+        return false;
+    }
+    /**
+     * ✅ Assegna un report a un moderatore
+     */
+    public static boolean assignReport(int id, String staffName) {
+        List<String> reports = new ArrayList<>();
+        boolean found = false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 7 && Integer.parseInt(parts[0]) == id) {
+                    parts[6] = staffName;
+                    found = true;
+                }
+                reports.add(String.join(",", parts));
+            }
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to read reports from CSV!", e);
+        }
+
+        if (found) {
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH))) {
+                for (String report : reports) {
+                    bw.write(report + "\n");
+                }
+                return true;
+            } catch (IOException e) {
+                Main.getInstance().getLogger().error("❌ Failed to update reports CSV!", e);
+            }
+        }
+        return false;
     }
 
+    /**
+     * ✅ Ottiene il nome del giocatore segnalato in un report
+     */
+    public static String getReportedPlayer(int id) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
 
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
 
+                String[] parts = line.split(",");
+                if (parts.length >= 3 && Integer.parseInt(parts[0]) == id) {
+                    return parts[2]; // Nome del giocatore segnalato
+                }
+            }
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to get reported player from CSV!", e);
+        }
+        return null;
+    }
+
+    /**
+     * ✅ Ottiene il server dove è stato effettuato il report
+     */
+    public static String getReportedServer(int id) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
+            String line;
+            boolean firstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Salta l'intestazione
+                    firstLine = false;
+                    continue;
+                }
+
+                String[] parts = line.split(",");
+                if (parts.length >= 5 && Integer.parseInt(parts[0]) == id) {
+                    return parts[4]; // Nome del server
+                }
+            }
+
+        } catch (IOException e) {
+            Main.getInstance().getLogger().error("❌ Failed to get reported server from CSV!", e);
+        }
+        return null;
+    }
 
 }

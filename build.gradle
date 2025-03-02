@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.nutilsv3'
-version = '2.1.0-PUBLIC'
+version = '2.1.1-PUBLIC'
 
 repositories {
     mavenCentral()
@@ -29,6 +29,8 @@ dependencies {
 
     // LicenseGate (questa verrà shadata)
     implementation "dev.respark.licensegate:license-gate:1.0.4"
+    implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
+
     compileOnly 'net.luckperms:api:5.4'
 
 }
@@ -38,6 +40,8 @@ shadowJar {
     relocate 'dev.respark.licensegate', 'me.nutilsv3.libs.licensegate' // Reloca LicenseGate per evitare conflitti
     minimize() // Rimuove classi inutili per ridurre la dimensione del JAR
     archiveClassifier.set('')
+    mergeServiceFiles()
+
 }
 
 tasks.build.dependsOn shadowJar

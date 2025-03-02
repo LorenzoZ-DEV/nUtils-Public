@@ -36,7 +36,7 @@ public class ReportTpCommand implements SimpleCommand {
         try {
             int reportId = Integer.parseInt(args[0]);
 
-            Optional<String> serverName = ReportStorage.getReportedServer(reportId);
+            Optional<String> serverName = ReportStorage.getReportedServer(reportId).describeConstable ( );
 
             if (serverName.isEmpty()) {
                 staff.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_not_found", "&cReport not found or player is offline."))));

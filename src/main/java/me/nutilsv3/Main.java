@@ -7,6 +7,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import me.nutilsv3.provider.Provider;
 import me.nutilsv3.storage.DatabaseManager;
+import me.nutilsv3.storage.report.ReportStorage;
 import me.nutilsv3.utils.checker.UpdateChecker;
 import me.nutilsv3.utils.checker.UpdateChecker;
 import me.nutilsv3.utils.strings.CS;
@@ -53,8 +54,8 @@ public class Main {
     public void onProxyInitialization(ProxyInitializeEvent event) {
 
         Provider provider = new Provider(this);
+        ReportStorage.initialize ();
         provider.inizializza();
-        DatabaseManager.connect();
         UpdateChecker.checkForUpdates();
         logger.info ( SEPARATOR );
         logger.info("\033[1;32m✅ nUtilsV3 has been successfully started!\033[0m");

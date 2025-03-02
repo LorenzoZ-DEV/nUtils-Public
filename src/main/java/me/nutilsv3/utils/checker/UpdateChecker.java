@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class UpdateChecker {
 
-    private static final int RESOURCE_ID = 119755; // ID del plugin su Spigot
+    private static final int RESOURCE_ID = 119755; // SpigotMC Resource ID
 
     public static void checkForUpdates() {
         CompletableFuture.runAsync(() -> {
@@ -17,14 +17,20 @@ public class UpdateChecker {
                 URL url = new URL("https://api.spigotmc.org/simple/0.2/index.php?action=getResource&id=" + RESOURCE_ID);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+                connection.setRequestProperty("User-Agent", "NUtils-Plugin/" + Main.getInstance().getDescription().get("version"));
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode != 200) { // Se la risposta non è OK (200)
+                    Main.getInstance().getLogger().warn("⚠ SpigotMC API returned an error: HTTP " + responseCode);
+                    return;
+                }
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 String response = reader.readLine();
                 reader.close();
 
                 if (response == null || response.isEmpty()) {
-                    Main.getInstance().getLogger().warn("§cUnable to fetch update information from Spigot.");
+                    Main.getInstance().getLogger().warn("⚠ Unable to fetch update information from Spigot.");
                     return;
                 }
 
@@ -32,14 +38,14 @@ public class UpdateChecker {
                 String currentVersion = Main.getInstance().getDescription().get("version");
 
                 if (!currentVersion.equalsIgnoreCase(latestVersion)) {
-                    Main.getInstance().getLogger().info("§eA new version of NUtils is available: " + latestVersion);
-                    Main.getInstance().getLogger().info("§eDownload it here: §bhttps://www.spigotmc.org/resources/nutils.119755/");
+                    Main.getInstance().getLogger().info("🔔 A new version of NUtils is available: " + latestVersion);
+                    Main.getInstance().getLogger().info("➡ Download it here: https://www.spigotmc.org/resources/nutils.119755/");
                 } else {
-                    Main.getInstance().getLogger().info("§aNUtils is up to date!");
+                    Main.getInstance().getLogger().info("✅ NUtils is up to date!");
                 }
 
             } catch (Exception e) {
-                Main.getInstance().getLogger().error("§cFailed to check for updates on Spigot!", e);
+                Main.getInstance().getLogger().error("❌ Failed to check for updates on Spigot!", e);
             }
         });
     }

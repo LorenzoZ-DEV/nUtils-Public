@@ -6,24 +6,29 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DatabaseManager {
     private static Connection connection;
 
     public static void connect() {
         try {
-            if (connection != null && !connection.isClosed()) {
-                return;
-            }
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:plugins/NUtils/reports.db");
+            Class.forName("org.sqlite.JDBC"); // ✅ Carica il driver manualmente
+            connection = DriverManager.getConnection("jdbc:sqlite:plugins/nutilsv3/database.db");
+            Main.getInstance().getLogger().info("✅ Connected to SQLite database successfully!");
+
+            // ✅ Crea la tabella se non esiste
             createTable();
-            Main.getInstance().getLogger().info("SQLite connected successfully.");
-        } catch (Exception e) {
-            Main.getInstance().getLogger().error("SQLite connection failed!", e);
+        } catch (ClassNotFoundException e) {
+            Main.getInstance().getLogger().error("❌ SQLite JDBC driver not found!", e);
+        } catch (SQLException e) {
+            Main.getInstance().getLogger().error("❌ Failed to connect to SQLite database!", e);
         }
     }
 
+    /**
+     * ✅ Crea la tabella reports se non esiste
+     */
     private static void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS reports (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -34,25 +39,32 @@ public class DatabaseManager {
                 "server TEXT, " +
                 "status TEXT DEFAULT 'OPEN', " +
                 "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.execute();
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(sql);
+            Main.getInstance().getLogger().info("✅ Reports table checked/created successfully!");
         } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Failed to create reports table!", e);
+            Main.getInstance().getLogger().error("❌ Failed to create reports table!", e);
         }
     }
 
-
+    /**
+     * ✅ Restituisce la connessione al database
+     */
     public static Connection getConnection() {
         return connection;
     }
 
+    /**
+     * ✅ Chiude la connessione al database
+     */
     public static void close() {
         try {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
+                Main.getInstance().getLogger().info("✅ SQLite connection closed successfully.");
             }
         } catch (SQLException e) {
-            Main.getInstance().getLogger().error("Error closing SQLite connection", e);
+            Main.getInstance().getLogger().error("❌ Error closing SQLite connection", e);
         }
     }
 }

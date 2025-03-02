@@ -10,33 +10,29 @@ import net.kyori.adventure.text.Component;
 public class ReportReopenCommand implements SimpleCommand {
 
     @Override
-    public void execute(SimpleCommand.Invocation invocation) {
+    public void execute(Invocation invocation) {
         CommandSource sender = invocation.source();
-
-        if (!sender.hasPermission("nutils.managereports")) {
-            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("no_permission", "&cYou do not have permission to use this command."))));
-            return;
-        }
-
         String[] args = invocation.arguments();
+
         if (args.length < 1) {
-            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_invalid_id", "&cInvalid report ID. Please provide a valid number."))));
+            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("usage", "&cUsage: /report reopen <id>"))));
             return;
         }
 
+        int reportId;
         try {
-            int reportId = Integer.parseInt(args[0]);
-
-            boolean success = ReportStorage.reopenReport(reportId, sender.toString());
-            if (success) {
-                sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_reopened", "&aReport ID %id% has been reopened by %staff%."))
-                        .replace("%id%", String.valueOf(reportId))
-                        .replace("%staff%", sender.toString())));
-            } else {
-                sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_not_found", "&cReport not found or already open."))));
-            }
+            reportId = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_invalid_id", "&cInvalid report ID."))));
+            sender.sendMessage(Component.text(CS.translate("&cInvalid report ID!")));
+            return;
+        }
+
+        boolean success = ReportStorage.reopenReport(reportId);
+
+        if (success) {
+            sender.sendMessage(Component.text(CS.translate("&aSuccessfully reopened report ID: " + reportId)));
+        } else {
+            sender.sendMessage(Component.text(CS.translate("&cFailed to reopen report! Report not found.")));
         }
     }
 }

@@ -30,7 +30,7 @@ public class ReportPunishCommand implements SimpleCommand {
             int reportId = Integer.parseInt(args[0]);
 
             // Recupera il giocatore segnalato dal report
-            Optional<String> reportedPlayer = ReportStorage.getReportedPlayer(reportId);
+            Optional<String> reportedPlayer = ReportStorage.getReportedPlayer(reportId).describeConstable ( );
 
             if (reportedPlayer.isEmpty()) {
                 sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_not_found", "&cReport not found or already handled."))));
