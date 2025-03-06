@@ -6,6 +6,7 @@ import com.velocitypowered.api.proxy.Player;
 import me.nutilsv3.storage.report.ReportStorage;
 import me.nutilsv3.utils.configs.ConfigManager;
 import net.kyori.adventure.text.Component;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ import java.util.Optional;
 public class StaffJoinListener {
 
     @Subscribe
-    public void onPlayerJoin(PostLoginEvent event) {
+    public void onPlayerJoin(PostLoginEvent event) throws SerializationException {
         Player player = event.getPlayer();
 
         if (!player.hasPermission("nutils.viewreports")) {

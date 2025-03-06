@@ -112,4 +112,7 @@ public class ConfigManager {
     }
 
 
+    public static List<String> getStringList(String s) throws SerializationException {
+        return config.node((Object[]) s.split("\\.")).getList(String.class);
+    }
 }

@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateChecker {
 
     private static final int RESOURCE_ID = 119755;
+    private static String latestVersion = "unknown"; // ✅ Sempre inizializzato con un valore di default
 
     public static void checkForUpdates() {
         CompletableFuture.runAsync(() -> {
@@ -35,11 +36,12 @@ public class UpdateChecker {
                     return;
                 }
 
-                String latestVersion = response.split("\"current_version\":\"")[1].split("\"")[0];
+                latestVersion = response.split("\"current_version\":\"")[1].split("\"")[0];
                 String currentVersion = Main.getInstance().getDescription().get("version");
 
                 if (!currentVersion.equalsIgnoreCase(latestVersion)) {
-                    String updateMessage = ConfigManager.getMessage("update_checker.message", "🔔 A new update is available! Current: %current_version%, New: %new_version%\nClick here: %link%")
+                    String updateMessage = ConfigManager.getMessage("update_checker.message",
+                                    "🔔 A new update is available! Current: %current_version%, New: %new_version%\n➡ Click here: %link%")
                             .replace("%current_version%", currentVersion)
                             .replace("%new_version%", latestVersion)
                             .replace("%link%", "https://www.spigotmc.org/resources/nutils.119755/")
@@ -49,9 +51,15 @@ public class UpdateChecker {
                 } else {
                     Main.getInstance().getLogger().info("✅ NUtils is up to date!");
                 }
+
             } catch (Exception e) {
                 Main.getInstance().getLogger().error("❌ Failed to check for updates on Spigot!", e);
             }
         });
+    }
+
+    // ✅ Metodo per ottenere la versione più recente
+    public static String getLatestVersion() {
+        return latestVersion;
     }
 }
