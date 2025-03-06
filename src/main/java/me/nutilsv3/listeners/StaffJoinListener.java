@@ -4,22 +4,37 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.proxy.Player;
 import me.nutilsv3.storage.report.ReportStorage;
+import me.nutilsv3.utils.configs.ConfigManager;
 import net.kyori.adventure.text.Component;
+
+import java.util.List;
+import java.util.Optional;
 
 public class StaffJoinListener {
 
     @Subscribe
-    public void onStaffJoin(PostLoginEvent event) {
+    public void onPlayerJoin(PostLoginEvent event) {
         Player player = event.getPlayer();
 
         if (!player.hasPermission("nutils.viewreports")) {
             return;
         }
 
-        int openReports = ReportStorage.getOpenReportsCount();
+        Optional<String> serverOpt = player.getCurrentServer().map(server -> server.getServerInfo().getName());
+        if (serverOpt.isPresent()) {
+            List<String> ignoredServers = ConfigManager.getStringList("reports.ignored_servers");
+            if (ignoredServers.contains(serverOpt.get())) {
+                return;
+            }
+        }
 
+        int openReports = ReportStorage.getOpenReportsCount();
         if (openReports > 0) {
-            player.sendMessage(Component.text("§6[Report] §aThere are §e" + openReports + " §aopen reports. Use §e/report list §ato view them."));
+            String message = ConfigManager.getMessage("report_join_notification", "&6[Report] &aThere are &e%reports% &aopen reports. Use &e/report list")
+                    .replace("%reports%", String.valueOf(openReports))
+                    .replace("\\n", "\n");
+
+            player.sendMessage(Component.text(message));
         }
     }
 }

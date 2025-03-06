@@ -22,3 +22,20 @@ punishments:
 
 # Update Checker (Enable/Disable)
 update-checker: true
+message: "🔔 A new update is available! Current: %current_version%, New: %new_version%\n➡ Click here: %link%"
+
+
+reports:
+  ignored_servers:
+    - "auth_1"
+    - "hub_2"
+  join_notification: "&6[Report] &aThere are &e%reports% &aopen reports. Use &e/report list\n"
+
+commands:
+  msg: true
+  helpop: true
+  report: true
+  report_tp: true
+  follow: true
+  request: true
+  staffchat: false

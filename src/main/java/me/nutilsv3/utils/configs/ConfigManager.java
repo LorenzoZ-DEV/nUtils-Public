@@ -67,12 +67,11 @@ public class ConfigManager {
     }
 
 
-    public static String getMessage(String key, String defaultValue) {
-        if (messagesConfig == null) {
-            return defaultValue;
-        }
-        return messagesConfig.node("messages", key).getString(defaultValue);
+    public static String getMessage(String path, String defaultValue) {
+        return config.node("messages", path).getString(defaultValue)
+                .replace("%prefix%", config.node("messages", "prefix").getString("[nUtils] "));
     }
+
 
 
     public static int getCooldown(String command) {
@@ -108,5 +107,9 @@ public class ConfigManager {
     public static String getString(String path, String defaultValue) {
         return config.node(path).getString(defaultValue);
     }
+    public static boolean getBoolean(String path, boolean defaultValue) {
+        return config.node((Object[]) path.split("\\.")).getBoolean(defaultValue);
+    }
+
 
 }

@@ -31,7 +31,7 @@ public class ReportStorage {
     }
 
 
-    public static void saveReport(String reporter, String reported, String reason, String server) {
+    public static int saveReport(String reporter, String reported, String reason, String server) {
         try {
             File file = new File(FILE_PATH);
             FileWriter fw = new FileWriter(file, true);
@@ -49,6 +49,7 @@ public class ReportStorage {
         } catch (IOException e) {
             Main.getInstance().getLogger().error("❌ Failed to save report in CSV!", e);
         }
+        return 0;
     }
 
 

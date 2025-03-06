@@ -8,13 +8,14 @@ import me.nutilsv3.storage.report.ReportStorage;
 import me.nutilsv3.utils.strings.CS;
 import me.nutilsv3.utils.configs.ConfigManager;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 
 import java.util.Optional;
 
 public class ReportCommand implements SimpleCommand {
 
     @Override
-    public void execute(SimpleCommand.Invocation invocation) {
+    public void execute(Invocation invocation) {
         CommandSource sender = invocation.source();
 
         if (!(sender instanceof Player reporter)) {
@@ -40,12 +41,13 @@ public class ReportCommand implements SimpleCommand {
         Player reportedPlayer = reportedPlayerOpt.get();
         String serverName = reportedPlayer.getCurrentServer().map(sc -> sc.getServerInfo().getName()).orElse("Unknown");
 
-        ReportStorage.saveReport(reporter.getUsername(), reportedPlayer.getUsername(), reason, serverName);
+        // ✅ Salviamo il report nel CSV
+        int reportId = ReportStorage.saveReport(reporter.getUsername(), reportedPlayer.getUsername(), reason, serverName);
 
-        reporter.sendMessage(Component.text(CS.translate(
-                ConfigManager.getMessage("report_confirmation", "&aYou reported &c%reported% &afor &e%reason%&a!")
-                        .replace("%reported%", reportedPlayer.getUsername())
-                        .replace("%reason%", reason)
-        )));
+        // ✅ Chat message con teleport
+        Component message = Component.text("🔔 New report! Click here to teleport to " + serverName)
+                .clickEvent(ClickEvent.runCommand("/report tp " + reportId));
+
+        reporter.sendMessage(message);
     }
 }

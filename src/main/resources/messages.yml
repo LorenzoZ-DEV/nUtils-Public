@@ -5,6 +5,7 @@
 
 messages:
   # ================================ GENERAL MESSAGES ===============================
+  prefix: "[nUtils] "
   no_permission: "&#8a2be2&lmyServer &#555555» &#ff3333You do not have permission to execute this command."
   player_only: "&#ff3333You must be a player to execute this command!"
   usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaUsage: &#d633ff/report <player> <reason>"

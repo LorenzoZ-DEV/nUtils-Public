@@ -43,7 +43,7 @@ public class Provider {
 
         // ✅ Comandi base
         commandManager.register("report", new ReportCommand());
-        commandManager.register("request", new RequestCommand());
+//        commandManager.register("request", new RequestCommand());
         commandManager.register("follow", new FollowCommand());
         commandManager.register("ping", new PingCommand());
         commandManager.register("msg", new MessageCommand());
@@ -62,6 +62,18 @@ public class Provider {
         commandManager.register("reportassign", new ReportAssignCommand ());
         commandManager.register("reportstats", new ReportStatsCommand ());
         commandManager.register("reportgui", new ReportGUICommand ());
+        if (ConfigManager.getBoolean("commands.msg", true)) {
+            commandManager.register("msg", new MessageCommand());
+        }
+        if (ConfigManager.getBoolean("commands.requests", true)) {
+            commandManager.register("request", new RequestCommand ());
+        }
+        if (ConfigManager.getBoolean("commands.report", true)) {
+            commandManager.register("report", new ReportCommand());
+        }
+        if (ConfigManager.getBoolean("commands.report_tp", true)) {
+            commandManager.register("report_tp", new ReportTpCommand());
+        }
 
         plugin.getLogger().info("\033[1;32m[INFO] ✅ Comands hooks!\033[0m");
     }
