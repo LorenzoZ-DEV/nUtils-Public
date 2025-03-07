@@ -11,8 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public class UpdateChecker {
 
     private static final int RESOURCE_ID = 119755;
-    private static String latestVersion = "unknown"; // ✅ Sempre inizializzato con un valore di default
-
+    private static String latestVersion = "unknown";
     public static void checkForUpdates() {
         CompletableFuture.runAsync(() -> {
             try {
@@ -58,7 +57,6 @@ public class UpdateChecker {
         });
     }
 
-    // ✅ Metodo per ottenere la versione più recente
     public static String getLatestVersion() {
         return latestVersion;
     }

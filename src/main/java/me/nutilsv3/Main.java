@@ -57,7 +57,7 @@ public class Main {
         provider.inizializza();
         UpdateChecker.checkForUpdates();
         logger.info ( SEPARATOR );
-        logger.info("\033[1;32m✅ nUtilsV3 has been successfully started!\033[0m");
+        logger.info("\033[1;32m✅ nUtils has been successfully started!\033[0m");
         logger.info(SEPARATOR);}
 
     public Map<String, String> getDescription() {

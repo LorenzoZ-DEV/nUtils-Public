@@ -216,21 +216,21 @@ public class ReportStorage {
 
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
-            boolean firstLine = true; // ✅ Variabile per saltare l'intestazione
+            boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // ✅ Salta l'intestazione del CSV
+                if (firstLine) {
                     firstLine = false;
-                    reports.add(line); // ✅ Mantiene l'intestazione nel file
+                    reports.add(line);
                     continue;
                 }
 
                 String[] parts = line.split(",");
                 if (parts.length >= 6) {
                     try {
-                        int reportId = Integer.parseInt(parts[0]); // ✅ Converte solo se non è l'intestazione
+                        int reportId = Integer.parseInt(parts[0]);
                         if (reportId == id) {
-                            parts[5] = newStatus; // Cambia lo stato del report
+                            parts[5] = newStatus;
                             found = true;
                         }
                     } catch (NumberFormatException e) {
@@ -296,7 +296,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // ✅ Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -305,7 +305,7 @@ public class ReportStorage {
                 if (parts.length >= 3) {
                     try {
                         if (Integer.parseInt(parts[0]) == id) {
-                            return parts[2]; // Nome del giocatore segnalato
+                            return parts[2];
                         }
                     } catch (NumberFormatException ignored) {}
                 }
@@ -325,7 +325,7 @@ public class ReportStorage {
             boolean firstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (firstLine) { // ✅ Salta l'intestazione
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -334,7 +334,7 @@ public class ReportStorage {
                 if (parts.length >= 5) {
                     try {
                         if (Integer.parseInt(parts[0]) == id) {
-                            return parts[4]; // Nome del server
+                            return parts[4];
                         }
                     } catch (NumberFormatException ignored) {}
                 }

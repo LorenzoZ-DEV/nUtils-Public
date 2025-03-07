@@ -78,11 +78,7 @@ public class Provider {
         plugin.getLogger().info("\033[1;32m[INFO] ✅ Comands hooks!\033[0m");
     }
 
-    /**
-     * 🔊 Registra gli eventi
-     */
     public void registralisteners() {
-        // Qui puoi registrare eventuali event listeners in futuro
         EventManager eventManager = plugin.getProxy().getEventManager();
         eventManager.register(plugin, new StaffJoinListener ());
         eventManager.register ( plugin, new PlayerJoinListener () );
@@ -90,9 +86,6 @@ public class Provider {
 
     }
 
-    /**
-     * 📄 Carica il file di configurazione
-     */
     public void caricaconfigurazione() {
         plugin.getLogger().info("\033[1;34m[INFO] Loading Configs...\033[0m");
         ConfigManager.loadConfig(plugin);
