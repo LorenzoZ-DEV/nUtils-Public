@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.nutilsv3'
-version = '2.13'
+version = '2.14'
 
 repositories {
     mavenCentral()
@@ -26,7 +26,7 @@ dependencies {
 
     // Configurate per gestione file YAML
     implementation 'org.spongepowered:configurate-yaml:4.1.2'
-
+    implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'org.xerial:sqlite-jdbc:3.42.0.0'
 
     compileOnly 'net.luckperms:api:5.4'

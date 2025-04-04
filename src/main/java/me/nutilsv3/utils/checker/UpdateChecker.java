@@ -1,7 +1,10 @@
 package me.nutilsv3.utils.checker;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import me.nutilsv3.Main;
 import me.nutilsv3.utils.configs.ConfigManager;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -10,32 +13,34 @@ import java.util.concurrent.CompletableFuture;
 
 public class UpdateChecker {
 
-    private static final int RESOURCE_ID = 119755;
+    private static final String UPDATE_URL = "https://raw.githubusercontent.com/LorenzoZ-DEV/UpdatePlugins/main/Update.json";
     private static String latestVersion = "unknown";
+    private static final Gson gson = new Gson();
+
     public static void checkForUpdates() {
         CompletableFuture.runAsync(() -> {
             try {
-                URL url = new URL("https://api.spigotmc.org/simple/0.2/index.php?action=getResource&id=" + RESOURCE_ID);
+                URL url = new URL(UPDATE_URL);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
-                connection.setRequestProperty("User-Agent", "NUtils-Plugin/" + Main.getInstance().getDescription().get("version"));
+                connection.setRequestProperty("User-Agent", "NUtils-Plugin/" + Main.getInstance().getDescription().get ("version"));
+                connection.setConnectTimeout(5000);
+                connection.setReadTimeout(5000);
 
                 int responseCode = connection.getResponseCode();
                 if (responseCode != 200) {
-                    Main.getInstance().getLogger().warn("⚠ SpigotMC API returned an error: HTTP " + responseCode);
+                    Main.getInstance().getLogger().warn ("⚠ GitHub API returned an error: HTTP " + responseCode);
                     return;
                 }
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String response = reader.readLine();
+                JsonObject jsonResponse = gson.fromJson(reader, JsonObject.class);
                 reader.close();
 
-                if (response == null || response.isEmpty()) {
-                    Main.getInstance().getLogger().warn("⚠ Unable to fetch update information from Spigot.");
-                    return;
+                if (jsonResponse.has("latest_version")) {
+                    latestVersion = jsonResponse.get("latest_version").getAsString();
                 }
 
-                latestVersion = response.split("\"current_version\":\"")[1].split("\"")[0];
                 String currentVersion = Main.getInstance().getDescription().get("version");
 
                 if (!currentVersion.equalsIgnoreCase(latestVersion)) {
@@ -43,8 +48,7 @@ public class UpdateChecker {
                                     "🔔 A new update is available! Current: %current_version%, New: %new_version%\n➡ Click here: %link%")
                             .replace("%current_version%", currentVersion)
                             .replace("%new_version%", latestVersion)
-                            .replace("%link%", "https://www.spigotmc.org/resources/nutils.119755/")
-                            .replace("\\n", "\n");
+                            .replace("%link%", "https://github.com/LorenzoZ-DEV/UpdatePlugins");
 
                     Main.getInstance().getLogger().info(updateMessage);
                 } else {
@@ -52,7 +56,8 @@ public class UpdateChecker {
                 }
 
             } catch (Exception e) {
-                Main.getInstance().getLogger().error("❌ Failed to check for updates on Spigot!", e);
+                Main.getInstance().getLogger().error ("❌ Failed to check for updates on GitHub!");
+                e.printStackTrace();
             }
         });
     }

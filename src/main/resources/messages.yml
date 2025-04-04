@@ -61,4 +61,12 @@ messages:
   msg_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/msg <player> <message>"
   msg_format: "&#8a2be2&lmyServer &#555555» &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
   no_reply_target: "&#8a2be2&lmyServer &#555555» &#ff3333You have no player to reply to."
-  reply_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"
+  reply_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"ù
+
+  # ================================ TPTO MESSAGES ===============================
+  tpto_self: "&#8a2be2&lmyServer &#555555» &#ff3333You cannot teleport to yourself."
+  tpto_no_server: "&#8a2be2&lmyServer &#555555» &#ff3333The player is not currently connected to a server."
+  tpto_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/tpto <player>"
+  tpto_failed: "&#8a2be2&lmyServer &#555555» &#ff3333Failed to teleport to the player. Please try again."
+  tpto_success: "&#8a2be2&lmyServer &#555555» &#aaaaaaYou have been teleported to the player."
+  console_error: "&#8a2be2&lmyServer &#555555» &#ff3333You cannot teleport to a player from the console."
