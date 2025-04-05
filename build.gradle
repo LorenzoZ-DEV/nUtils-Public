@@ -5,7 +5,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1' // Plugin per creare un JAR shadato
 }
 
-group = 'me.nutilsv3'
+group = 'me.nutils'
 version = '2.14-h1'
 
 repositories {

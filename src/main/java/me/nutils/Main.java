@@ -8,6 +8,7 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import me.nutils.provider.Provider;
 import me.nutils.storage.report.ReportStorage;
 import me.nutils.utils.checker.UpdateChecker;
+import me.nutils.utils.console.Art;
 import me.nutils.utils.strings.CS;
 import org.slf4j.Logger;
 
@@ -59,6 +60,7 @@ public class Main {
         logger.info(SEPARATOR);
         logger.info("\033[1;32m✅ nUtils has been successfully started!\033[0m");
         logger.info(SEPARATOR);
+        Art.asciiart ( );
     }
 
     public Map<String, String> getDescription() {

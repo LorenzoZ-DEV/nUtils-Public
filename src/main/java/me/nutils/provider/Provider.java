@@ -4,6 +4,7 @@ import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.EventManager;
 import me.nutils.Main;
 import me.nutils.commands.admin.ReloadCoreCommand;
+import me.nutils.commands.staff.TpToCommand;
 import me.nutils.commands.staff.follow.FollowCommand;
 import me.nutils.commands.staff.reportsystem.*;
 import me.nutils.commands.users.info.AntistealCommand;
@@ -48,7 +49,7 @@ public class Provider {
         commandManager.register("ping", new PingCommand());
         commandManager.register("msg", new MessageCommand());
         commandManager.register ( "r", new ReplyCommand () );
-
+        commandManager.register ( "tpto", new TpToCommand () );
         // ✅ Comandi Admin
         commandManager.register("nutilsreload", new ReloadCoreCommand());
         commandManager.register("nutilscore", new AntistealCommand());
