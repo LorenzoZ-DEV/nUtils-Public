@@ -1,4 +1,4 @@
-package me.nutilsv3;
+package me.nutils;
 
 // The constants are replaced before compilation
 public class BuildConstants {

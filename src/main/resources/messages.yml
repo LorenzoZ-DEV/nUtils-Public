@@ -61,7 +61,7 @@ messages:
   msg_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/msg <player> <message>"
   msg_format: "&#8a2be2&lmyServer &#555555» &#d633ff{prefix} &#d633ff{player} &#555555» &#aaaaaa{message}"
   no_reply_target: "&#8a2be2&lmyServer &#555555» &#ff3333You have no player to reply to."
-  reply_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"ù
+  reply_usage: "&#8a2be2&lmyServer &#555555» &#aaaaaaCorrect usage: &#d633ff/reply <message>"
 
   # ================================ TPTO MESSAGES ===============================
   tpto_self: "&#8a2be2&lmyServer &#555555» &#ff3333You cannot teleport to yourself."
