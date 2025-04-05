@@ -16,8 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Plugin(
-        id = "nutilsv3",
-        name = "nUtilsV3",
+        id = "nutils",
+        name = "nUtils",
         version = BuildConstants.VERSION
 )
 public class Main {
