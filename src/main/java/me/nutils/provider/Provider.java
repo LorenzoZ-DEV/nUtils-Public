@@ -42,19 +42,16 @@ public class Provider {
     public void registracommandi() {
         CommandManager commandManager = plugin.getProxy().getCommandManager();
 
-        // ✅ Comandi base
         commandManager.register("report", new ReportCommand());
-//        commandManager.register("request", new RequestCommand());
+        commandManager.register("request", new RequestCommand());
         commandManager.register("follow", new FollowCommand());
         commandManager.register("ping", new PingCommand());
         commandManager.register("msg", new MessageCommand());
         commandManager.register ( "r", new ReplyCommand () );
         commandManager.register ( "tpto", new TpToCommand () );
-        // ✅ Comandi Admin
         commandManager.register("nutilsreload", new ReloadCoreCommand());
         commandManager.register("nutilscore", new AntistealCommand());
 
-        // ✅ Comandi Report Management
         commandManager.register("reportlist", new ReportListCommand());
         commandManager.register("reportclose", new ReportCloseCommand());
         commandManager.register("reportreopen", new ReportReopenCommand ());

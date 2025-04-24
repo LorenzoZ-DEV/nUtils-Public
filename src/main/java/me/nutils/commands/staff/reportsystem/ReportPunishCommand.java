@@ -39,11 +39,9 @@ public class ReportPunishCommand implements SimpleCommand {
 
             String playerName = reportedPlayer.get();
 
-            // ✅ Leggiamo il comando di punizione dal config
             String punishmentCommand = ConfigManager.getString("punishments.command", "ban %player% Report confirmed")
                     .replace("%player%", playerName);
 
-            // ✅ Eseguiamo il comando di punizione
             Main.getInstance ( ).getProxy().getCommandManager().executeAsync(sender, punishmentCommand);
 
             sender.sendMessage(Component.text(CS.translate(ConfigManager.getMessage("report_punished", "&aPlayer %reported% has been punished for a confirmed report."))

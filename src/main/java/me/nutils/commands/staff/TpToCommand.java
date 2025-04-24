@@ -63,10 +63,8 @@ public class TpToCommand implements SimpleCommand {
         ServerConnection targetServer = targetServerOpt.get();
         RegisteredServer registeredServer = targetServer.getServer();
 
-        // First, connect the player to the target's server
         executor.createConnectionRequest(registeredServer).connect().thenAccept(result -> {
             if (result.isSuccessful()) {
-                // After connection, send teleport plugin message
                 String teleportCommand = String.format("teleport %s %s", executor.getUsername(), target.getUsername());
                 byte[] dataBytes = teleportCommand.getBytes(StandardCharsets.UTF_8);
 

@@ -27,7 +27,6 @@ public class PlayerJoinListener {
         }
 
         if (!currentVersion.equalsIgnoreCase(latestVersion)) {
-            // ✅ Prendiamo il messaggio dal config.yml
             String updateMessage = ConfigManager.getMessage("update_notification",
                             "%prefix% 🔔 A new update is available! Current: %current_version%, New: %new_version%\n➡ Click here: %link%")
                     .replace("%prefix%", ConfigManager.getMessage("prefix", "[nUtils]"))
@@ -36,7 +35,6 @@ public class PlayerJoinListener {
                     .replace("%link%", "https://www.spigotmc.org/resources/nutils.119755/")
                     .replace("\\n", "\n");
 
-            // ✅ Messaggio cliccabile con link alla pagina di download
             Component message = Component.text(updateMessage)
                     .clickEvent(ClickEvent.openUrl("https://www.spigotmc.org/resources/nutils.119755/"));
 

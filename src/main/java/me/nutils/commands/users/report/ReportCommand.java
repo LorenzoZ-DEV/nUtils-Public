@@ -41,10 +41,8 @@ public class ReportCommand implements SimpleCommand {
         Player reportedPlayer = reportedPlayerOpt.get();
         String serverName = reportedPlayer.getCurrentServer().map(sc -> sc.getServerInfo().getName()).orElse("Unknown");
 
-        // ✅ Salviamo il report nel CSV
         int reportId = ReportStorage.saveReport(reporter.getUsername(), reportedPlayer.getUsername(), reason, serverName);
 
-        // ✅ Chat message con teleport
         Component message = Component.text("🔔 New report! Click here to teleport to " + serverName)
                 .clickEvent(ClickEvent.runCommand("/report tp " + reportId));
 

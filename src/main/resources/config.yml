@@ -6,14 +6,6 @@ cooldown:
   request: 15  # Cooldown time for /request
   report: 10   # Cooldown time for /report
 
-# Database settings (for future implementations)
-database:
-  type: "sqlite" # Available: sqlite, mysql
-  host: "localhost"
-  port: 3306
-  database: "nutils"
-  username: "root"
-  password: "password"
 
 punishments:
   command: "ban %player% Report confirmed"
